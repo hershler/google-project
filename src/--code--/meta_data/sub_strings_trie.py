@@ -1,5 +1,5 @@
 from .sentences_dict import sentences_dict
-from ..complete_to_sentences import find_best_complete_strings
+from find_completions_offline import find_best_complete_strings_offline
 
 
 class TrieNode:
@@ -32,9 +32,9 @@ class Trie:
                 current_node.chars[index] = self.get_node()
             current_node = current_node.chars[index]
 
-        current_node.complete_strings = find_best_complete_strings(sub_string)
+        current_node.complete_strings = find_best_complete_strings_offline(sub_string)
 
-    def find_best_complete_string(self, sub_string):
+    def search_best_complete_string(self, sub_string):
 
         current_node = self.root
         length = len(sub_string)
