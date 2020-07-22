@@ -65,6 +65,3 @@ def init_substring_trie():
     for sentence in sentences_dict.values():
         for sub_string in find_substrings_of_string(sentence):
             sub_string_trie.insert_sub_string(sub_string)
-
-
-init_substring_trie()
