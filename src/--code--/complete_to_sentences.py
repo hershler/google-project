@@ -14,6 +14,3 @@ def find_best_k_completions(sub_string):
         best_completions.append(sentences_dict[source])
 
     return best_completions
-
-
-

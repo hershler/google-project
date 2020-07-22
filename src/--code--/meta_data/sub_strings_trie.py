@@ -20,7 +20,7 @@ class Trie:
     def char_to_index(self, ch):
         return 26 if ' ' == ch else ord(ch) - ord('a')
 
-    def insert_sub_string(self, sub_string):
+    def insert_sub_string(self, sub_string, string_key):
 
         current_node = self.root
         length = len(sub_string)
@@ -32,7 +32,8 @@ class Trie:
                 current_node.chars[index] = self.get_node()
             current_node = current_node.chars[index]
 
-        current_node.complete_strings = find_best_complete_strings_offline(sub_string)
+        if len(current_node.complete_strings) < 5 and string_key not in current_node.complete_strings:
+            current_node.complete_strings.append(string_key)
 
     def search_best_complete_string(self, sub_string):
 
@@ -62,6 +63,6 @@ def find_substrings_of_string(string):
 
 def init_substring_trie():
 
-    for sentence in sentences_dict.values():
+    for key, sentence in sentences_dict.items():
         for sub_string in find_substrings_of_string(sentence):
-            sub_string_trie.insert_sub_string(sub_string)
+            sub_string_trie.insert_sub_string(sub_string, key)
