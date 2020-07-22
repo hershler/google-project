@@ -1,5 +1,5 @@
 from .sentences_dict import sentences_dict
-from find_completions_offline import find_best_complete_strings_offline
+from utils import normal_string
 
 
 class TrieNode:
@@ -64,5 +64,5 @@ def find_substrings_of_string(string):
 def init_substring_trie():
 
     for key, sentence in sentences_dict.items():
-        for sub_string in find_substrings_of_string(sentence):
+        for sub_string in find_substrings_of_string(normal_string(sentence)):
             sub_string_trie.insert_sub_string(sub_string, key)
