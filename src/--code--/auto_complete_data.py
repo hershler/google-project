@@ -1,9 +1,8 @@
 
 class AutoCompleteData:
 
-    def __init__(self):
-        completed_sentence = ""
-        source_text = ""
-        offset = 0
-        score = 0
-
+    def __init__(self, sentence, src_txt):
+        self.completed_sentence = sentence
+        self.source_text = src_txt
+        self.offset = 0
+        self.score = 0
