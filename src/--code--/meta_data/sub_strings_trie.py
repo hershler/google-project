@@ -4,18 +4,19 @@ from utils import normal_string
 
 class TrieNode:
 
-    def __init__(self):
+    def __init__(self, father):
         self.chars = [None for i in range(26 + 1)]
         self.complete_strings = []
+        self.father = father
 
 
 class Trie:
 
     def __init__(self):
-        self.root = self.get_node()
+        self.root = self.get_node(None)
 
-    def get_node(self):
-        return TrieNode()
+    def get_node(self, father):
+        return TrieNode(father)
 
     def char_to_index(self, ch):
         return 26 if ' ' == ch else ord(ch) - ord('a')
@@ -29,7 +30,7 @@ class Trie:
             index = self.char_to_index(sub_string[level])
 
             if not current_node.chars[index]:
-                current_node.chars[index] = self.get_node()
+                current_node.chars[index] = self.get_node(current_node)
             current_node = current_node.chars[index]
 
         if len(current_node.complete_strings) < 5 and string_key not in current_node.complete_strings:
@@ -37,17 +38,33 @@ class Trie:
 
     def search_best_complete_string(self, sub_string):
 
-        current_node = self.root
-        length = len(sub_string)
+        def search(node, string):
+            if node is None:
+                return [], None
+            length = len(string)
 
-        for level in range(length):
-            index = self.char_to_index(sub_string[level])
+            for level in range(length):
+                index = self.char_to_index(string[level])
 
-            if not current_node.chars[index]:
-                return []
-            current_node = current_node.chars[index]
+                if not node.chars[index]:
+                    return [], node.father
+                node = node.chars[index]
 
-        return current_node.complete_strings
+            return node.complete_strings, node.father
+
+        # call to search
+        res, father = search(self.root, sub_string)
+
+        current_index = len(sub_string) - 1
+
+        while current_index and father and 5 != len(res):
+            for char in father.chars:
+                current_res, father = search(char, sub_string[current_index:])
+                res += current_res
+            current_index -= 1
+
+
+        return res
 
 
 sub_string_trie = Trie()
