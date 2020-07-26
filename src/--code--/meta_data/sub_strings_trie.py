@@ -5,7 +5,7 @@ from utils import normal_string
 class TrieNode:
 
     def __init__(self, father):
-        self.chars = [None for i in range(26 + 1)]
+        self.chars = [None for _ in range(26 + 1)]
         self.complete_strings = []
         self.father = father
 
@@ -40,31 +40,33 @@ class Trie:
 
         def search(node, string):
             if node is None:
-                return [], None
+                return [], None, None
             length = len(string)
 
             for level in range(length):
                 index = self.char_to_index(string[level])
 
                 if not node.chars[index]:
-                    return [], node.father
+                    return [], node, level
                 node = node.chars[index]
 
-            return node.complete_strings, node.father
+            return node.complete_strings, node.father, length - 1
 
         # call to search
-        res, father = search(self.root, sub_string)
+        complete_list, father, length_we_read = search(self.root, sub_string)
 
-        current_index = len(sub_string) - 1
+        while father and len(complete_list) < 5:
 
-        while current_index and father and 5 != len(res):
             for char in father.chars:
-                current_res, father = search(char, sub_string[current_index:])
-                res += current_res
-            current_index -= 1
+                current_complete_list, _, _ = search(char, sub_string[length_we_read + 1:])
+                if current_complete_list:
+                    complete_list += current_complete_list
+                    if len(complete_list) >= 5:
+                        return complete_list[:5]
+            length_we_read -= 1
+            father = father.father
 
-
-        return res
+        return complete_list[:min(5, len(complete_list))]
 
 
 sub_string_trie = Trie()

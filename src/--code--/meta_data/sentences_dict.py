@@ -8,7 +8,7 @@ sentences_dict = {}
 def init_sentences_dict():
     # read sentences from files
 
-    for filename in glob.iglob("../--data--technology_texts/python-3.8.4-docs-text/" + 'bugs.txt', recursive=True):
+    for filename in glob.iglob("../--data--technology_texts/python-3.8.4-docs-text/" + '**.txt', recursive=True):
 
         with open(filename, mode='r', encoding='utf-8') as f:
             sentences = f.readlines()

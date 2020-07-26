@@ -2,11 +2,8 @@ from complete_to_sentences import init_system, find_best_k_completions
 from utils import normal_string
 
 
-k = 5
-
-
 def print_completions(the_completions):
-    m = min(len(the_completions), k)
+    m = len(the_completions)
 
     if not the_completions:
         print("no suggestions :(")
