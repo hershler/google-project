@@ -52,24 +52,46 @@ class Trie:
 
             return node.complete_strings, node.father, length - 1
 
-        # call to search
+        # call to search to find the simple case
         complete_list, father, length_we_read = search(self.root, sub_string)
 
         while father and len(complete_list) < 5:
 
+            # case of exchange a letter
             for char in father.chars:
                 current_complete_list, _, _ = search(char, sub_string[length_we_read + 1:])
-                if current_complete_list:
-                    complete_list += current_complete_list
-                    if len(complete_list) >= 5:
-                        return complete_list[:5]
+
+                for item in current_complete_list:
+                    if item not in complete_list:
+                        complete_list.append(item)
+                if len(complete_list) >= 5:
+                    return complete_list[:5]
+
+            # case of add a letter
+            current_complete_list, _, _ = search(father, sub_string[length_we_read + 1:])
+
+            for item in current_complete_list:
+                if item not in complete_list:
+                    complete_list.append(item)
+            if len(complete_list) >= 5:
+                return complete_list[:5]
+
+            # case of remove a letter
+            for char in father.chars:
+                current_complete_list, _, _ = search(char, sub_string[length_we_read:])
+                for item in current_complete_list:
+                    if item not in complete_list:
+                        complete_list.append(item)
+                if len(complete_list) >= 5:
+                    return complete_list[:5]
+
             length_we_read -= 1
             father = father.father
 
         return complete_list[:min(5, len(complete_list))]
 
 
-sub_string_trie = Trie()
+sub_strings_trie = Trie()
 
 
 def find_substrings_of_string(string):
@@ -84,4 +106,4 @@ def init_substring_trie():
 
     for key, sentence in sentences_dict.items():
         for sub_string in find_substrings_of_string(normal_string(sentence.completed_sentence)):
-            sub_string_trie.insert_sub_string(sub_string, key)
+            sub_strings_trie.insert_sub_string(sub_string, key)

@@ -2,3 +2,4 @@ docs/
 src/--data--technology_texts/
 src/--code--/__pycache__/
 src/--code--/meta_data/__pycache__/
+.idea/
