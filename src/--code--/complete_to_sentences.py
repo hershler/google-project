@@ -9,8 +9,9 @@ def init_system():
 
 def find_best_k_completions(sub_string):
     sources_list = sub_strings_trie.search_best_complete_string(sub_string)
+    sources_list = sources_list[:min(5, len(sources_list))]
     best_completions = []
     for source in sources_list:
-        best_completions.append(sentences_dict[source])
+        best_completions.append((sentences_dict[source[0]], source[1]))
 
     return best_completions

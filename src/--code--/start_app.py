@@ -10,19 +10,24 @@ def print_completions(the_completions):
     else:
         print(f"Here are the {m} suggestions")
         for i in range(1, m + 1):
-            print(f"{i}. {(completions[i - 1]).completed_sentence} source: {(completions[i - 1]).source_text}")
+            print(f"{i}. {(completions[i - 1][0]).completed_sentence} "
+                  f"|| source: {(completions[i - 1][0]).source_text} "
+                  f"|| offset: {(completions[i - 1][1])}")
     print(input_, end='')
 
 
 if __name__ == "__main__":
     print("Loading the files and preparing the system\n...")
     init_system()
-    print("the system is ready \n")
+    print("...\nthe system is ready \n")
     input_ = '$'
     while input_:
         input_ = input("please enter a text\n")
-        if input_:
-            while input_[-1] != '#':
-                completions = find_best_k_completions(normal_string(input_))
-                print_completions(completions)
-                input_ += input()
+        while input_ and input_[-1] != '#':
+            normal_input = normal_string(input_)
+            if len(normal_input) < 2:
+                print("the string to search must have a length of at least 2 letters")
+                break
+            completions = find_best_k_completions(normal_string(input_))
+            print_completions(completions)
+            input_ += input()
