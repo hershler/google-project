@@ -37,30 +37,29 @@ class Trie:
         if len(current_node.complete_strings) < 5 and string_key not in current_node.complete_strings:
             current_node.complete_strings.append(SubstringData(string_key, offset))
 
+    def search(self, node, string):
+        if node is None:
+            return [], None, None
+        length = len(string)
+
+        for level in range(length):
+            index = self.char_to_index(string[level])
+
+            if not node.chars[index]:
+                return [], node, level
+            node = node.chars[index]
+
+        return node.complete_strings, node.father, length - 1
+
     def search_best_complete_string(self, sub_string):
-
-        def search(node, string):
-            if node is None:
-                return [], None, None
-            length = len(string)
-
-            for level in range(length):
-                index = self.char_to_index(string[level])
-
-                if not node.chars[index]:
-                    return [], node, level
-                node = node.chars[index]
-
-            return node.complete_strings, node.father, length - 1
-
         # call to search to find the simple case
-        complete_list, father, length_we_read = search(self.root, sub_string)
+        complete_list, father, length_we_read = self.search(self.root, sub_string)
 
         while father and len(complete_list) < 5:
 
             # case of exchange a letter
             for char in father.chars:
-                current_complete_list, _, _ = search(char, sub_string[length_we_read + 1:])
+                current_complete_list, _, _ = self.search(char, sub_string[length_we_read + 1:])
 
                 for item in current_complete_list:
                     if item not in complete_list:
@@ -69,7 +68,7 @@ class Trie:
                     return complete_list
 
             # case of add a letter
-            current_complete_list, _, _ = search(father, sub_string[length_we_read + 1:])
+            current_complete_list, _, _ = self.search(father, sub_string[length_we_read + 1:])
 
             for item in current_complete_list:
                 if item not in complete_list:
@@ -79,7 +78,7 @@ class Trie:
 
             # case of remove a letter
             for char in father.chars:
-                current_complete_list, _, _ = search(char, sub_string[length_we_read:])
+                current_complete_list, _, _ = self.search(char, sub_string[length_we_read:])
                 for item in current_complete_list:
                     if item not in complete_list:
                         complete_list.append(item)
@@ -96,7 +95,6 @@ sub_strings_trie = Trie()
 
 
 def find_substrings_of_string(string):
-
     length = len(string)
     for i in range(length):
         for j in range(i + 1, length + 1):
@@ -104,7 +102,6 @@ def find_substrings_of_string(string):
 
 
 def init_substring_trie():
-
     for key, sentence in sentences_dict.items():
         for sub_string, offset in find_substrings_of_string(normal_string(sentence.completed_sentence)):
             sub_strings_trie.insert_sub_string(sub_string, key, offset)
