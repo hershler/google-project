@@ -12,7 +12,7 @@ def find_best_k_completions(sub_string):
     id_offset_completions = id_offset_completions[:min(5, len(id_offset_completions))]
     sentences_and_offsets = []
 
-    for completion in id_offset_completions:
-        sentences_and_offsets.append((sentences_dict[completion[0]], completion[1]))
+    for id_ofs_completion in id_offset_completions:
+        sentences_and_offsets.append((sentences_dict[id_ofs_completion.comp_id], id_ofs_completion.offset))
 
     return sentences_and_offsets

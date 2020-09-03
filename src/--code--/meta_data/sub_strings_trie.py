@@ -1,3 +1,4 @@
+from auto_complete_data import SubstringData
 from .sentences_dict import sentences_dict
 from utils import normal_string
 
@@ -34,7 +35,7 @@ class Trie:
             current_node = current_node.chars[index]
 
         if len(current_node.complete_strings) < 5 and string_key not in current_node.complete_strings:
-            current_node.complete_strings.append((string_key, offset))
+            current_node.complete_strings.append(SubstringData(string_key, offset))
 
     def search_best_complete_string(self, sub_string):
 
