@@ -1,5 +1,5 @@
 from complete_to_sentences import init_system, find_best_k_completions
-from utils import normal_string
+from utils import normal_string, detailed_completion
 
 
 def print_completions(the_completions):
@@ -7,16 +7,14 @@ def print_completions(the_completions):
 
     if not the_completions:
         print("no suggestions :(")
-    else:
-        print(f"Here are the {m} suggestions")
-        for i in range(1, m + 1):
-            print(f"{i}. {(completions[i - 1][0]).completed_sentence} "
-                  f"|| source: {(completions[i - 1][0]).source_text} "
-                  f"|| offset: {(completions[i - 1][1])}")
-    print(input_, end='')
+        return
+
+    print(f"Here are the {m} suggestions\n")
+    for i in range(1, m + 1):
+        print(f"{i}. {detailed_completion(the_completions[i - 1])}")
 
 
-if __name__ == "__main__":
+def start_app():
     print("Loading the files and preparing the system\n...")
     init_system()
     print("...\nthe system is ready \n")
@@ -28,6 +26,7 @@ if __name__ == "__main__":
             if len(normal_input) < 2:
                 print("the string to search must have a length of at least 2 letters")
                 break
-            completions = find_best_k_completions(normal_string(input_))
+            completions = find_best_k_completions(normal_input)
             print_completions(completions)
+            print(input_, end='')
             input_ += input()

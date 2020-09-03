@@ -8,10 +8,11 @@ def init_system():
 
 
 def find_best_k_completions(sub_string):
-    sources_list = sub_strings_trie.search_best_complete_string(sub_string)
-    sources_list = sources_list[:min(5, len(sources_list))]
-    best_completions = []
-    for source in sources_list:
-        best_completions.append((sentences_dict[source[0]], source[1]))
+    id_offset_completions = sub_strings_trie.search_best_complete_string(sub_string)
+    id_offset_completions = id_offset_completions[:min(5, len(id_offset_completions))]
+    sentences_and_offsets = []
 
-    return best_completions
+    for completion in id_offset_completions:
+        sentences_and_offsets.append((sentences_dict[completion[0]], completion[1]))
+
+    return sentences_and_offsets
