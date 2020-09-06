@@ -16,4 +16,4 @@ def init_sentences_dict():
                 sentences = [x.strip() for x in sentences]
 
                 for i in range(len(sentences)):
-                    sentences_dict[i] = AutoCompleteData(sentences[i], file)
+                    sentences_dict[i] = AutoCompleteData(sentences[i], file.rpartition(".")[0])
