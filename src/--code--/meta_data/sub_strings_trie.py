@@ -30,9 +30,10 @@ class Trie:
         for level in range(length):
             index = self.char_to_index(sub_string[level])
 
-            if not current_node.chars[index]:
-                current_node.chars[index] = self.get_node(current_node)
-            current_node = current_node.chars[index]
+            if index < 27:
+                if not current_node.chars[index]:
+                    current_node.chars[index] = self.get_node(current_node)
+                current_node = current_node.chars[index]
 
         if len(current_node.complete_strings) < 5 and string_key not in current_node.complete_strings:
             current_node.complete_strings.append(SubstringData(string_key, offset))
