@@ -14,7 +14,7 @@ We run offline a program that will store all sentences in a Hash-table (dictiona
 time-complexity: O(n^3)
 
 ### online
-We recive online a substring to be completed, and search for completion's IDs in the trie (in the last node of the substring), then we access the dictionary to get the full sentences, in case of list less than 5, we search of more completions with one charater wrong (miss, add or replace).
+We recive online a substring to be completed, and search for completion's IDs in the trie (in the last node of the substring), then we access the dictionary to get the full sentences, in case of list less than 5, we search for more completions with one character wrong (miss, add or replace).
 time complexity: O(1) at best and average, and anyway not more than input length - if it's long the efficency is not so important.
 
 ### implementation
