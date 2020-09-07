@@ -3,6 +3,7 @@ from complete_to_sentences import init_system, find_best_k_completions
 from utils import normal_string, detailed_completion
 import threading
 from tkinter import messagebox
+from PIL import ImageTk, Image
 
 
 class AutoCompGui:
@@ -38,7 +39,7 @@ class AutoCompGui:
 
     def show_comps(self):
         comps, status = self.completions()
-        ic = "info" if 0 == status else "error" if 1 == status else "warning"
+        ic = "info" if 0 == status else "warning" if 1 == status else "error"
         messagebox._show("completions", comps, _icon=ic)
 
         if not status:
@@ -49,6 +50,7 @@ class AutoCompGui:
         self.root.title(string='Great AutoCompletion!!')
         self.root.iconphoto(False, PhotoImage(file='icon.png'))
         self.root.geometry('500x500')
+
         init_system()
 
         lab = Label(self.root, text='please enter a string to search')
@@ -56,8 +58,10 @@ class AutoCompGui:
 
         e = Entry(self.root, textvariable=self.user_input)
         e.pack()
-
-        search_button = Button(self.root, text="Search", command=self.show_comps)
+        
+        img = ImageTk.PhotoImage(Image.open("book_mark.png"))
+        search_button = Button(self.root, command=self.show_comps, image=img, width=120, height=100)
         search_button.pack()
+
 
         mainloop()
