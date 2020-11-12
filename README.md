@@ -22,4 +22,4 @@ I implemented the program with python3, using data structures like python dict a
 In addition I provided a simple GUI using TKinter.
 
 -----
-thanks to ADVA and Elevation stuff and all google mentors!.
+thanks to ADVA and Elevation team and all google mentors!.
